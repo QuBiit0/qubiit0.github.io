@@ -88,6 +88,7 @@
             background-color: #fcfdfe;
         }
         .accordion-item.active .accordion-content {
+            /* max-height will be set by JS dynamically to a large value for full display */
             padding-top: 1rem; /* Restore padding when open */
             padding-bottom: 1rem; /* Restore padding when open */
         }
@@ -501,7 +502,7 @@
             <h2 class="section-title">Contacto</h2>
             <div class="bg-white p-6 rounded-lg shadow-md text-center">
                 <p class="text-gray-700 mb-4">¡No dudes en contactarme!</p>
-                <div class="flex flex-col items-center justify-center space-y-3 mb-6">
+                <div class="flex flex-col sm:flex-row justify-center items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-6">
                     <a href="https://wa.me/5493731661851" target="_blank" class="text-blue-700 hover:text-blue-900 font-medium text-lg flex items-center">
                         📞 <span class="ml-2">+5493731661851</span>
                     </a>
@@ -532,7 +533,7 @@
 
     <footer class="bg-gray-800 text-white text-center py-6 text-sm">
         <p>&copy; 2025 Leandro Martín Alvarez. Todos los derechos reservados.</p>
-        <p class="mt-2 text-xs text-gray-400">Diseñado por OneFix.</p>
+        <p class="mt-2 text-xs text-gray-400">Diseñado con el apoyo de tu asistente de IA.</p>
     </footer>
 
     <script>
@@ -550,9 +551,10 @@
         document.addEventListener('DOMContentLoaded', () => { // Ensure this runs on load
             document.querySelectorAll('.accordion-header').forEach(header => {
                 const accordionContent = header.nextElementSibling;
-                accordionContent.style.maxHeight = "0px"; // Initialize all to closed
-                accordionContent.style.paddingTop = "0";    // Remove padding when closed
-                accordionContent.style.paddingBottom = "0"; // Remove padding when closed
+                // Initialize all to closed and with no padding
+                accordionContent.style.maxHeight = "0"; 
+                accordionContent.style.paddingTop = "0";    
+                accordionContent.style.paddingBottom = "0"; 
 
                 header.addEventListener('click', () => {
                     const accordionItem = header.parentElement;
@@ -562,7 +564,7 @@
                         if (item !== accordionItem) { // Only close others
                             item.classList.remove('active');
                             const otherContent = item.querySelector('.accordion-content');
-                            otherContent.style.maxHeight = "0px";
+                            otherContent.style.maxHeight = "0";
                             otherContent.style.paddingTop = "0";
                             otherContent.style.paddingBottom = "0";
                         }
@@ -571,13 +573,15 @@
                     // Toggle current accordion
                     accordionItem.classList.toggle('active');
                     if (accordionItem.classList.contains('active')) {
-                        accordionContent.style.maxHeight = accordionContent.scrollHeight + "px";
-                        accordionContent.style.paddingTop = "1rem"; // Restore padding when open
-                        accordionContent.style.paddingBottom = "1rem"; // Restore padding when open
+                        // Set a large maxHeight and restore padding when open
+                        accordionContent.style.maxHeight = "1000px"; // Use a sufficiently large value
+                        accordionContent.style.paddingTop = "1rem"; 
+                        accordionContent.style.paddingBottom = "1rem"; 
                     } else {
-                        accordionContent.style.maxHeight = "0px";
-                        accordionContent.style.paddingTop = "0"; // Remove padding when closed
-                        accordionContent.style.paddingBottom = "0"; // Remove padding when closed
+                        // Reset to 0 when closed
+                        accordionContent.style.maxHeight = "0"; 
+                        accordionContent.style.paddingTop = "0"; 
+                        accordionContent.style.paddingBottom = "0"; 
                     }
                 });
             });
