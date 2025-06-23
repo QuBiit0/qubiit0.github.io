@@ -1,1 +1,626 @@
-Hello World
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio Profesional | Leandro Martín Alvarez</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fc; /* Light background for calmness */
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+        .section-title {
+            font-size: 2.25rem; /* text-4xl */
+            font-weight: 700; /* font-bold */
+            color: #2c3e50; /* Darker blue-gray for titles */
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e0e7ff; /* Light blue border */
+            padding-bottom: 0.5rem;
+        }
+        .bg-hero {
+            background-color: #000000;
+            position: relative;
+            overflow: hidden;
+        }
+        .circuit-lines {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-image:
+                linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            opacity: 0.5;
+            animation: move-circuit 20s linear infinite;
+        }
+        @keyframes move-circuit {
+            0% { background-position: 0 0; }
+            100% { background-position: 300px 300px; }
+        }
+        .header-sticky {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .accordion-item {
+            background-color: #ffffff;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        .accordion-header {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #2c3e50;
+            background-color: #ecf0f1; /* Light gray for header */
+            transition: background-color 0.3s ease;
+        }
+        .accordion-header:hover {
+            background-color: #dbe4e8;
+        }
+        .accordion-content {
+            padding: 1rem 1.5rem;
+            max-height: 0; /* Ensures content is hidden by default */
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background-color: #fcfdfe;
+        }
+        .accordion-item.active .accordion-content {
+            max-height: 500px; /* This will be overridden by JS for exact height */
+            transition: max-height 0.5s ease-in;
+        }
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Maximum width for chart */
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; /* Base height for chart */
+            max-height: 400px; /* Max height for chart */
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+    <!-- Chosen Palette: Calm Ocean (Light blues, grays, whites, with subtle deep blue/cyan accents) -->
+    <!-- Application Structure Plan: The SPA will follow a clean, single-page, vertically-scrolling layout. 1. Hero Section: Introduces Leandro with his name, professional titles, and a captivating background inspired by the LinkedIn banner concept. This section serves as an immediate visual hook. 2. About Me Section: Presents Leandro's professional summary, offering a deeper insight into his experience and career aspirations. 3. Experience Section: Features an interactive timeline/accordion structure. Each work experience entry can be expanded/collapsed to reveal key achievements, allowing users to delve into details on demand without overwhelming the initial view. 4. Skills Section: Organizes technical and soft skills into categorized lists for easy scanning. A dynamic bar chart will visually represent illustrative proficiency levels for key technical skills, making complex data consumable. 5. Education & Certifications Section: Provides a clear, chronological list of academic background and professional certifications, grouped for clarity. 6. Contact Section: Displays contact information with direct links. 7. Footer: Simple copyright/branding. This structure was chosen to provide a logical flow for recruiters and potential employers to explore Leandro's profile. It moves from a high-level overview to detailed sections, allowing for both quick scanning and deep dives. The interactive elements (accordions, chart) enhance engagement and user control over the information displayed. -->
+    <!-- Visualization & Content Choices: Hero Section: Report Info: Name, main titles, contact info, visual brand. Goal: Create an impactful first impression. Viz/Presentation Method: Large, bold text for name; subtle, animated circuit pattern background; Unicode emojis for titles and contact info. Interaction: CSS animation for background. Justification: Visually engaging, conveys professionalism and tech focus, optimized for quick understanding. Library/Method: HTML, Tailwind CSS, custom CSS for animation. About Me Section: Report Info: Professional Summary. Goal: Provide a narrative overview of expertise and aspirations. Viz/Presentation Method: Paragraph text. Interaction: None. Justification: Best for conveying detailed textual information. Library/Method: HTML, Tailwind CSS. Experience Section: Report Info: Detailed work history and achievements. Goal: Allow granular exploration of work experience and quantifiable achievements. Viz/Presentation Method: Accordion/collapsible panels for each job entry. Each panel shows title, company, dates, and bulleted achievements. Interaction: Click to expand/collapse job details (Vanilla JS). Justification: Manages information density, allowing users to focus on areas of interest. Library/Method: HTML, Tailwind CSS, Vanilla JS. Skills Section: Report Info: Categorized technical and soft skills. Goal: Present skills clearly and highlight key technical competencies. Viz/Presentation Method: Bulleted lists for all skills. A horizontal bar chart for a selection of key technical skills (Python, Cybersecurity, AI/Automation, Network Admin), illustrating relative proficiency levels. (Note: Proficiency levels are illustrative/dummy data as actual numerical data is not in the source CV). Interaction: Chart is static but visually engaging. Justification: Lists are excellent for scanning skills; a chart adds a visual summary and modern touch. Library/Method: HTML, Tailwind CSS, Chart.js (Canvas) for the bar chart. Education & Certifications Section: Report Info: Academic degrees and professional certifications. Goal: Showcase formal education and continuous learning. Viz/Presentation Method: Clear, chronological lists. Interaction: None. Justification: Standard, clear presentation for qualifications. Library/Method: HTML, Tailwind CSS. Contact Section: Report Info: Email, Phone, LinkedIn, GitHub. Goal: Provide clear ways to connect. Viz/Presentation Method: Hyperlinked text with Unicode icons. Interaction: Clickable links. Justification: Direct and actionable. Library/Method: HTML, Tailwind CSS. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="antialiased">
+
+    <!-- Header / Sticky Navigation -->
+    <header class="header-sticky py-4 shadow-sm">
+        <nav class="container flex justify-between items-center">
+            <a href="#hero" class="text-xl font-bold text-blue-700 hover:text-blue-900 transition-colors">Leandro M. Alvarez</a>
+            <div class="space-x-4">
+                <a href="#about" class="text-gray-700 hover:text-blue-700 font-medium transition-colors">Acerca de Mí</a>
+                <a href="#experience" class="text-gray-700 hover:text-blue-700 font-medium transition-colors">Experiencia</a>
+                <a href="#skills" class="text-gray-700 hover:text-blue-700 font-medium transition-colors">Habilidades</a>
+                <a href="#education" class="text-gray-700 hover:text-blue-700 font-medium transition-colors">Educación</a>
+                <a href="#contact" class="text-gray-700 hover:text-blue-700 font-medium transition-colors">Contacto</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative bg-hero text-white h-screen flex items-center justify-center p-4">
+        <div class="circuit-lines"></div>
+        
+        <div class="relative z-10 text-center px-4">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-4 leading-tight">LEANDRO MARTÍN ALVAREZ</h1>
+            <p class="text-xl sm:text-2xl md:text-3xl text-cyan-300 font-semibold mb-6">
+                🤖 IA | 🔒 Ciberseguridad | ⚙️ Automatización | 🐍 Desarrollo Python | 🌐 Redes y Sistemas | 👨‍🏫 Profesor TI
+            </p>
+            <div class="text-base sm:text-lg md:text-xl font-light space-y-1">
+                <p>📞 <a href="https://wa.me/5493731661851" target="_blank" class="text-blue-300 hover:underline">+5493731661851</a></p>
+                <p>✉️ <a href="mailto:leomalvarez89@gmail.com" class="text-blue-300 hover:underline">leomalvarez89@gmail.com</a></p>
+                <p><a href="https://www.linkedin.com/in/leandromalvarez/" target="_blank" class="text-blue-300 hover:underline">LinkedIn</a> | <a href="https://github.com/QuBiit0/" target="_blank" class="text-blue-300 hover:underline">GitHub</a></p>
+            </div>
+        </div>
+    </section>
+
+    <main class="container py-12">
+
+        <!-- About Me Section -->
+        <section id="about" class="mb-16">
+            <h2 class="section-title">Acerca de Mí</h2>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <p class="text-gray-700 mb-4">
+                    Como Gerente de Sistemas con más de 15 años de trayectoria, lidero la transformación digital y fortaleciendo la ciberseguridad en las organizaciones. Mi experiencia abarca desde la administración de infraestructuras de red y sistemas (Windows, Linux, Mac, Active Directory), hasta el desarrollo con Python y la implementación de automatizaciones con N8N. He gestionado la seguridad de la información aplicando marcos como NIST e ISO 27001, y supervisando el cumplimiento del DSCF de John Deere.
+                </p>
+                <p class="text-gray-700 mb-4">
+                    Soy un Analista de Ciberseguridad, con sólidos conocimientos en Hacking Ético Ofensivo (Red Team) e Informática Forense, y me dedico a proteger infraestructuras y minimizar riesgos operativos. Además, mi rol como Especialista en Inteligencia Artificial se complementa con habilidades en análisis de datos (Power BI, Python Pandas) y Cloud Computing.
+                </p>
+                <p class="text-gray-700">
+                    Mi pasión es aplicar mi liderazgo y pensamiento analítico para impulsar la innovación, resolver problemas complejos y contribuir al éxito estratégico de las organizaciones. Busco constantemente expandir mi expertise y generar un impacto significativo en proyectos desafiantes en IA, Automatización y Ciberseguridad.
+                </p>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="mb-16">
+            <h2 class="section-title">Experiencia Laboral</h2>
+            <div id="experience-list">
+                <!-- Job Entry 1: Gerente de Sistemas -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Gerente de Sistemas | David Sartor (Concesionaria Oficial John Deere) | Dic. 2024 – Actualidad</span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="list-disc pl-5 text-gray-700">
+                            <li>Lidero la estrategia y operación de sistemas, infraestructura y ciberseguridad para el concesionario oficial John Deere.</li>
+                            <li>Implemento soluciones de Inteligencia Artificial y automatización con N8N, optimizando procesos y aumentando la eficiencia operativa.</li>
+                            <li>A cargo de la gobernanza, riesgo y cumplimiento (GRC) de TI, asegurando la continuidad del negocio y la protección de datos.</li>
+                            <li>Gestiono proyectos de implementación de software (Office 365, Microsoft 365) y la administración de bases de datos SQL.</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Job Entry 2: Responsable de Sistemas y Ciberseguridad -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Responsable de Sistemas y Ciberseguridad | David Sartor (John Deere) | Sept. 2024 – Dic. 2024</span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="list-disc pl-5 text-gray-700">
+                            <li>Implementé y supervisé el cumplimiento del marco DSCF de John Deere (más de 30 controles obligatorios), fortaleciendo la postura de ciberseguridad del concesionario.</li>
+                            <li>Establecí y gestioné la seguridad de la infraestructura y la prevención de pérdida de datos (DLP).</li>
+                            <li>Implementé marcos de ciberseguridad basados en NIST e ISO 27001, minimizando riesgos operativos.</li>
+                            <li>Administré servidores, dispositivos y la conectividad, brindando soporte crucial para la transformación digital.</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Job Entry 3: Responsable de E-Commerce -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Responsable de E-Commerce | David Sartor (John Deere) | Mar. 2024 – Dic. 2024</span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="list-disc pl-5 text-gray-700">
+                            <li>Desarrollé e implementé estrategias de comercio electrónico y marketing digital.</li>
+                            <li>Optimicé plataformas de ventas online para productos John Deere, mejorando la experiencia del cliente y el alcance de mercado.</li>
+                            <li>Realicé análisis de negocio para la toma de decisiones, impulsando el crecimiento en el canal digital.</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Job Entry 4: Mentor -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Mentor | Informatorio Chaco | 2023 – 2024</span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="list-disc pl-5 text-gray-700">
+                            <li>Mentoricé a estudiantes en el curso de Desarrollo Web Full Stack (HTML, CSS, Python, MySQL, Django y Git/GitHub), brindando soporte técnico y guía profesional.</li>
+                            <li>Contribuí a la formación de futuros talentos TI, elevando su nivel de empleabilidad y comprensión de conceptos clave de programación.</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Job Entry 5: Técnico Informático / Profesional Independiente -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Técnico Informático / Profesional Independiente | OneFix | Oct. 2018 – Actualidad</span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="list-disc pl-5 text-gray-700">
+                            <li>Proporciono servicios integrales de TI, incluyendo gestión de redes, seguridad de infraestructuras y soporte a sistemas operativos (Windows, Linux y Mac).</li>
+                            <li>Implemento y administro software (Office 365, Microsoft 365) y sistemas de hosting (cPanel, correo electrónico).</li>
+                            <li>Experto en resolución de incidencias, reparación de hardware y recuperación de datos, garantizando la continuidad operativa.</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Job Entry 6: Técnico de Redes -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Técnico de Redes | Coopetel | 2018 – 2018</span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="list-disc pl-5 text-gray-700">
+                            <li>Responsable de la instalación de equipos inalámbricos, módems ADSL y FTTH, asegurando la conectividad de servicios.</li>
+                            <li>Brindé servicio de atención al cliente y soporte técnico en campo para la provisión de telefonía e internet.</li>
+                        </ul>
+                    </div>
+                </div>
+                 <!-- Job Entry 7: Profesor de Informática -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Profesor de Informática | Ministerio de Educación de la Nación | 2010 – 2018</span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="list-disc pl-5 text-gray-700">
+                            <li>Docente de Informática, Tecnología y Programación en escuelas primarias y secundarias.</li>
+                            <li>Desarrollé programas de estudio y formé a estudiantes en fundamentos de TI y pensamiento computacional.</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Job Entry 8: Administrador de Redes -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Administrador de Redes | Instituto Nacional de Educación Tecnológica (INET) - Conectar Igualdad | 2010 – 2016</span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="list-disc pl-5 text-gray-700">
+                            <li>Administré servidores Ubuntu Server y certificados de seguridad para netbooks del programa Conectar Igualdad.</li>
+                            <li>Proporcionó soporte técnico y gestión de redes para asegurar el acceso a recursos educativos digitales.</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Job Entry 9: Técnico Informático (Neatech) -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Técnico Informático | Neatech | 2010 – 2013</span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="list-disc pl-5 text-gray-700">
+                            <li>Responsable del taller de reparación de computadoras y del armado y configuración de redes.</li>
+                            <li>Diagnostiqué y resolví problemas de hardware, software y conectividad.</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Job Entry 10: Técnico Informático (Pro-Data) -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Técnico Informático | Pro-Data | 2008 – 2009</span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <ul class="list-disc pl-5 text-gray-700">
+                            <li>Técnico informático full stack para reparaciones y servicio técnico a domicilio para empresas y usuarios finales.</li>
+                            <li>Brindó soporte operativo y análisis técnico para la resolución de problemas informáticos.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="mb-16">
+            <h2 class="section-title">Habilidades</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 text-blue-700">Lenguajes de Programación y Scripting</h3>
+                    <ul class="list-disc pl-5 text-gray-700 space-y-1">
+                        <li>Python</li>
+                        <li>SQL</li>
+                        <li>HTML, CSS, JavaScript</li>
+                        <li>XML</li>
+                        <li>Powershell</li>
+                        <li>Bash</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 text-blue-700">Frameworks y Herramientas</h3>
+                    <ul class="list-disc pl-5 text-gray-700 space-y-1">
+                        <li>Django</li>
+                        <li>Microsoft Office 365, Google Workspace</li>
+                        <li>Power BI</li>
+                        <li>CRM (AG360)</li>
+                        <li>Globaleaks</li>
+                        <li>Git/GitHub</li>
+                        <li>SharePoint, Exchange</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 text-blue-700">Sistemas Operativos</h3>
+                    <ul class="list-disc pl-5 text-gray-700 space-y-1">
+                        <li>Windows</li>
+                        <li>Linux (Ubuntu, Kali Linux)</li>
+                        <li>Mac</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 text-blue-700">Gestión de Proyectos y Servicios</h3>
+                    <ul class="list-disc pl-5 text-gray-700 space-y-1">
+                        <li>JIRA</li>
+                        <li>GLPI</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 text-blue-700">Cloud y Virtualización</h3>
+                    <ul class="list-disc pl-5 text-gray-700 space-y-1">
+                        <li>Proxmox (Virtualización)</li>
+                        <li>Contenedores LXC, Docker</li>
+                        <li>Microsoft Azure (básico)</li>
+                        <li>Administración de Hosting (cPanel, Correo electrónico)</li>
+                        <li>Administración de Sistemas</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 text-blue-700">Ciberseguridad</h3>
+                    <ul class="list-disc pl-5 text-gray-700 space-y-1">
+                        <li>Hacking Ético Ofensivo (Red Team)</li>
+                        <li>Informática Forense</li>
+                        <li>Análisis de Vulnerabilidades</li>
+                        <li>Gestión de la Seguridad de la Información</li>
+                        <li>Respuesta a Incidentes</li>
+                        <li>Prevención de Pérdida de Datos (DLP)</li>
+                        <li>NIST, ISO 27001 (Conocimiento)</li>
+                        <li>Análisis de Amenazas</li>
+                        <li>Trend Micro Email Security</li>
+                        <li>DSCF (John Deere)</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 text-blue-700">Inteligencia Artificial y Automatización de Datos</h3>
+                    <ul class="list-disc pl-5 text-gray-700 space-y-1">
+                        <li>N8N (Automatización)</li>
+                        <li>Fundamentos de IA</li>
+                        <li>Análisis de Datos</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 text-blue-700">Redes</h3>
+                    <ul class="list-disc pl-5 text-gray-700 space-y-1">
+                        <li>Fortigate, Unifi, Mikrotik</li>
+                        <li>Active Directory</li>
+                        <li>Administración de Redes (LAN/WAN, TCP/IP)</li>
+                        <li>Equipos de red (Switch, Router, Access Point de marcas Ubiquiti, TP-Link, Linksys)</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 text-blue-700">Habilidades Blandas</h3>
+                    <ul class="list-disc pl-5 text-gray-700 space-y-1">
+                        <li>Liderazgo de Equipos</li>
+                        <li>Gestión de Proyectos</li>
+                        <li>Pensamiento Crítico, Pensamiento Analítico</li>
+                        <li>Resolución de Problemas bajo Presión</li>
+                        <li>Comunicación Efectiva</li>
+                        <li>Innovación y Creatividad</li>
+                        <li>Orientación al Cliente</li>
+                        <li>Responsabilidad y Proactividad</li>
+                        <li>Agilidad en Soluciones</li>
+                        <li>Adaptabilidad</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Chart for Illustrative Skill Proficiency -->
+            <h3 class="text-xl font-semibold mb-4 mt-8 text-blue-700 text-center">Nivel Ilustrativo de Habilidades Clave</h3>
+            <div class="chart-container bg-white p-6 rounded-lg shadow-md">
+                <canvas id="skillProficiencyChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="mb-16">
+            <h2 class="section-title">Educación</h2>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <ul class="list-disc pl-5 text-gray-700 space-y-2">
+                    <li>Desarrollador Web Full Stack | Informatorio Chaco (Auspiciado y avalado por UTN FRRe y Polo IT) | Ago. 2022 – Dic. 2022</li>
+                    <li>Analista en Sistemas de Computación | Instituto Superior Educativo Computacional N° 59 | Abr. 2008 – Dic. 2010</li>
+                    <li>Técnico en Montajes y Administración de Redes | Red Educativa | 2011</li>
+                    <li>Analista Programador | Instituto Superior Educativo Computacional N° 59 | Mar. 2010</li>
+                    <li>Técnico en Reparación de PC | Instituto Argentino de Computación | 2009</li>
+                    <li>Operador de PC Avanzado - Operador de PC para la Administración y Gestión | Ministerio de Educación, Cultura, Ciencia y Tecnología | 2008</li>
+                    <li>Introducción a la programación | Universidad Tecnológica Nacional Facultad Regional Resistencia Chaco - UTN FRRe | Mar. 2020 – Abr. 2020</li>
+                    <li>Colegio Secundario orientado en Humanidades e Informática | U.E.P N°57 "Fray Mamerto Esquiú" | 2002 – 2007</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Certifications Section -->
+        <section id="certifications" class="mb-16">
+            <h2 class="section-title">Logros Adicionales y Certificaciones</h2>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <ul class="list-disc pl-5 text-gray-700 space-y-2">
+                    <li>Programa especializado: IBM & Darden Digital Strategy (IBM, University of Virginia Darden School Foundation, Expedición: Mar. 2025)</li>
+                    <li>Data Analytics (Informatorio Chaco, Expedición: Nov. 2024. Aptitudes: Análisis de datos, Microsoft Power BI, Python, Pandas (Software), NumPy, Extraer, transformar y cargar (ETL))</li>
+                    <li>Certified Ethical Hacker (CEH) (Cisco Networking Academy, Expedición: Oct. 2024)</li>
+                    <li>Junior Cybersecurity Analyst Career Path (Cisco, Expedición: Abr. 2024)</li>
+                    <li>Cloud Computing (Google Actívate, Expedición: Ene. 2024)</li>
+                    <li>ISC2 Candidate (ISC2, Expedición: Ene. 2024)</li>
+                    <li>Introduction to Cybersecurity (Cisco, Expedición: Ene. 2024)</li>
+                    <li>Protege tu Negocio: Ciberseguridad en el Teletrabajo (Google Actívate, Expedición: Ene. 2024)</li>
+                    <li>Análisis de Datos y Gráficos con Python: Panda y Matplotlib (Udemy, Expedición: Ene. 2024)</li>
+                    <li>Fundamentos sobre ciberseguridad (Plataforma de Aprendizaje Virtual Argentina, 2023)</li>
+                    <li>Universidad Python - De Cero a Experto Más Completo +71 hrs (Udemy, Expedición: Mar. 2023)</li>
+                    <li>Hacking Ético Ofensivo. 100% Practico en Red Team. +42hs (Udemy, Expedición: Mar. 2023)</li>
+                    <li>Aprende Excel desde cero, Curso Excel Básico / Intermedio (Udemy, Expedición: Mar. 2023)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Languages Section -->
+        <section id="languages" class="mb-16">
+            <h2 class="section-title">Idiomas</h2>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <ul class="list-disc pl-5 text-gray-700 space-y-1">
+                    <li>Español: Nativo</li>
+                    <li>Inglés: A2 (Actualmente estudiando para mejorar y lograr fluidez)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="mb-16">
+            <h2 class="section-title">Contacto</h2>
+            <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                <p class="text-gray-700 mb-4">¡No dudes en contactarme!</p>
+                <div class="flex flex-col items-center justify-center space-y-3">
+                    <a href="https://wa.me/5493731661851" target="_blank" class="text-blue-700 hover:text-blue-900 font-medium text-lg flex items-center">
+                        📞 <span class="ml-2">+5493731661851</span>
+                    </a>
+                    <a href="mailto:leomalvarez89@gmail.com" class="text-blue-700 hover:text-blue-900 font-medium text-lg flex items-center">
+                        ✉️ <span class="ml-2">leomalvarez89@gmail.com</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/leandromalvarez/" target="_blank" class="text-blue-700 hover:text-blue-900 font-medium text-lg flex items-center">
+                        🔗 <span class="ml-2">LinkedIn</span>
+                    </a>
+                    <a href="https://github.com/QuBiit0/" target="_blank" class="text-blue-700 hover:text-blue-900 font-medium text-lg flex items-center">
+                        🐙 <span class="ml-2">GitHub</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-white text-center py-6 text-sm">
+        <p>&copy; 2025 Leandro Martín Alvarez. Todos los derechos reservados.</p>
+        <p class="mt-2 text-xs text-gray-400">Diseñado con el apoyo de tu asistente de IA.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Accordion functionality for Experience Section
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const accordionItem = header.parentElement;
+                const accordionContent = header.nextElementSibling;
+
+                // Close all other accordions
+                document.querySelectorAll('.accordion-item.active').forEach(item => {
+                    if (item !== accordionItem) {
+                        item.classList.remove('active');
+                        item.querySelector('.accordion-content').style.maxHeight = "0px"; /* Ensure it explicitly closes */
+                    }
+                });
+
+                // Toggle current accordion
+                accordionItem.classList.toggle('active');
+                if (accordionItem.classList.contains('active')) {
+                    accordionContent.style.maxHeight = accordionContent.scrollHeight + "px";
+                } else {
+                    accordionContent.style.maxHeight = "0px";
+                }
+            });
+        });
+
+        // Chart.js for Skill Proficiency (Illustrative Data)
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('skillProficiencyChart');
+            if (ctx) {
+                const skillsData = {
+                    labels: [
+                        'Python', 'Ciberseguridad', 'IA y Automatización', 
+                        'Admin. Redes', 'Gestión Proyectos', 'Pensamiento Crítico'
+                    ],
+                    datasets: [{
+                        label: 'Nivel Ilustrativo de Dominio',
+                        data: [90, 85, 80, 95, 75, 90], /* Illustrative values */
+                        backgroundColor: [
+                            'rgba(30, 144, 255, 0.7)', /* Dodger Blue */
+                            'rgba(255, 99, 132, 0.7)', /* Red */
+                            'rgba(75, 192, 192, 0.7)', /* Green */
+                            'rgba(255, 206, 86, 0.7)', /* Yellow */
+                            'rgba(153, 102, 255, 0.7)', /* Purple */
+                            'rgba(255, 159, 64, 0.7)'  /* Orange */
+                        ],
+                        borderColor: [
+                            'rgba(30, 144, 255, 1)',
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                };
+
+                const skillProficiencyChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: skillsData,
+                    options: {
+                        indexAxis: 'y', // Horizontal bars
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false,
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    title: function(context) {
+                                        const label = context[0].label;
+                                        return label.length > 16 ? label.match(/.{1,16}/g).join('\n') : label;
+                                    },
+                                    label: function(context) {
+                                        return context.raw + '% de dominio';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                max: 100,
+                                title: {
+                                    display: true,
+                                    text: 'Nivel de Dominio (%)',
+                                    color: '#555'
+                                },
+                                ticks: {
+                                    color: '#555'
+                                },
+                                grid: {
+                                    color: 'rgba(200, 200, 200, 0.2)'
+                                }
+                            },
+                            y: {
+                                ticks: {
+                                    color: '#555',
+                                    callback: function(value, index, values) {
+                                        const label = this.getLabelForValue(value);
+                                        return label.length > 16 ? label.match(/.{1,16}/g).join('\n') : label;
+                                    }
+                                },
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
