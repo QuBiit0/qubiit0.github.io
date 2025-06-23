@@ -81,15 +81,15 @@
             background-color: #dbe4e8;
         }
         .accordion-content {
-            padding: 1rem 1.5rem;
             max-height: 0; /* Ensures content is hidden by default */
+            padding: 0; /* Set all padding to 0 initially */
             overflow: hidden;
-            transition: max-height 0.3s ease-out;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
             background-color: #fcfdfe;
         }
         .accordion-item.active .accordion-content {
-            max-height: 500px; /* This will be overridden by JS for exact height */
-            transition: max-height 0.5s ease-in;
+            padding-top: 1rem; /* Restore padding when open */
+            padding-bottom: 1rem; /* Restore padding when open */
         }
         .accordion-icon {
             transition: transform 0.3s ease;
@@ -111,10 +111,33 @@
                 height: 350px;
             }
         }
+        .profile-photo {
+            width: 150px; /* Larger size */
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #fff; /* White border */
+            z-index: 20;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+            margin-bottom: 2rem; /* Space between photo and name */
+        }
+        @media (max-width: 768px) {
+            .profile-photo {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 1.5rem;
+            }
+            .hero h1 {
+                font-size: 2.5rem; /* Smaller font on mobile */
+            }
+            .hero p {
+                font-size: 1rem; /* Smaller font on mobile */
+            }
+        }
     </style>
     <!-- Chosen Palette: Calm Ocean (Light blues, grays, whites, with subtle deep blue/cyan accents) -->
-    <!-- Application Structure Plan: The SPA will follow a clean, single-page, vertically-scrolling layout. 1. Hero Section: Introduces Leandro with his name, professional titles, and a captivating background inspired by the LinkedIn banner concept. This section serves as an immediate visual hook. 2. About Me Section: Presents Leandro's professional summary, offering a deeper insight into his experience and career aspirations. 3. Experience Section: Features an interactive timeline/accordion structure. Each work experience entry can be expanded/collapsed to reveal key achievements, allowing users to delve into details on demand without overwhelming the initial view. 4. Skills Section: Organizes technical and soft skills into categorized lists for easy scanning. A dynamic bar chart will visually represent illustrative proficiency levels for key technical skills, making complex data consumable. 5. Education & Certifications Section: Provides a clear, chronological list of academic background and professional certifications, grouped for clarity. 6. Contact Section: Displays contact information with direct links. 7. Footer: Simple copyright/branding. This structure was chosen to provide a logical flow for recruiters and potential employers to explore Leandro's profile. It moves from a high-level overview to detailed sections, allowing for both quick scanning and deep dives. The interactive elements (accordions, chart) enhance engagement and user control over the information displayed. -->
-    <!-- Visualization & Content Choices: Hero Section: Report Info: Name, main titles, contact info, visual brand. Goal: Create an impactful first impression. Viz/Presentation Method: Large, bold text for name; subtle, animated circuit pattern background; Unicode emojis for titles and contact info. Interaction: CSS animation for background. Justification: Visually engaging, conveys professionalism and tech focus, optimized for quick understanding. Library/Method: HTML, Tailwind CSS, custom CSS for animation. About Me Section: Report Info: Professional Summary. Goal: Provide a narrative overview of expertise and aspirations. Viz/Presentation Method: Paragraph text. Interaction: None. Justification: Best for conveying detailed textual information. Library/Method: HTML, Tailwind CSS. Experience Section: Report Info: Detailed work history and achievements. Goal: Allow granular exploration of work experience and quantifiable achievements. Viz/Presentation Method: Accordion/collapsible panels for each job entry. Each panel shows title, company, dates, and bulleted achievements. Interaction: Click to expand/collapse job details (Vanilla JS). Justification: Manages information density, allowing users to focus on areas of interest. Library/Method: HTML, Tailwind CSS, Vanilla JS. Skills Section: Report Info: Categorized technical and soft skills. Goal: Present skills clearly and highlight key technical competencies. Viz/Presentation Method: Bulleted lists for all skills. A horizontal bar chart for a selection of key technical skills (Python, Cybersecurity, AI/Automation, Network Admin), illustrating relative proficiency levels. (Note: Proficiency levels are illustrative/dummy data as actual numerical data is not in the source CV). Interaction: Chart is static but visually engaging. Justification: Lists are excellent for scanning skills; a chart adds a visual summary and modern touch. Library/Method: HTML, Tailwind CSS, Chart.js (Canvas) for the bar chart. Education & Certifications Section: Report Info: Academic degrees and professional certifications. Goal: Showcase formal education and continuous learning. Viz/Presentation Method: Clear, chronological lists. Interaction: None. Justification: Standard, clear presentation for qualifications. Library/Method: HTML, Tailwind CSS. Contact Section: Report Info: Email, Phone, LinkedIn, GitHub. Goal: Provide clear ways to connect. Viz/Presentation Method: Hyperlinked text with Unicode icons. Interaction: Clickable links. Justification: Direct and actionable. Library/Method: HTML, Tailwind CSS. -->
+    <!-- Application Structure Plan: The SPA will follow a clean, single-page, vertically-scrolling layout. 1. Hero Section: Introduces Leandro with his name, professional titles, and a captivating background, now featuring a prominent, centered profile picture above the name. This section serves as an immediate visual hook. 2. About Me Section: Presents Leandro's professional summary, offering a deeper insight into his experience and career aspirations. 3. Experience Section: Features an interactive timeline/accordion structure. Each work experience entry can be expanded/collapsed to reveal key achievements, allowing users to delve into details on demand without overwhelming the initial view. 4. Skills Section: Organizes technical and soft skills into categorized lists for easy scanning. A dynamic bar chart will visually represent illustrative proficiency levels for key technical skills, making complex data consumable. 5. Education & Certifications Section: Provides a clear, chronological list of academic background and professional certifications, grouped for clarity. 6. Contact Section: Displays contact information with direct links. 7. Footer: Simple copyright/branding. This structure was chosen to provide a logical flow for recruiters and potential employers to explore Leandro's profile. It moves from a high-level overview to detailed sections, allowing for both quick scanning and deep dives. The interactive elements (accordions, chart) enhance engagement and user control over the information displayed. -->
+    <!-- Visualization & Content Choices: Hero Section: Report Info: Name, main titles, contact info, visual brand, profile picture. Goal: Create an impactful first impression and clearly identify Leandro. Viz/Presentation Method: Large, bold text for name; subtle, animated circuit pattern background; Unicode emojis for titles and contact info. A circular image for the profile photo positioned above the name. Interaction: CSS animation for background. Justification: Visually engaging, conveys professionalism and tech focus, optimized for quick understanding and personal branding. Library/Method: HTML, Tailwind CSS, custom CSS for animation and image positioning. About Me Section: Report Info: Professional Summary. Goal: Provide a narrative overview of expertise and aspirations. Viz/Presentation Method: Paragraph text. Interaction: None. Justification: Best for conveying detailed textual information. Library/Method: HTML, Tailwind CSS. Experience Section: Report Info: Detailed work history and achievements. Goal: Allow granular exploration of work experience and quantifiable achievements. Viz/Presentation Method: Accordion/collapsible panels for each job entry. Each panel shows title, company, dates, and bulleted achievements. Interaction: Click to expand/collapse job details (Vanilla JS). Justification: Manages information density, allowing users to focus on areas of interest. Library/Method: HTML, Tailwind CSS, Vanilla JS. Skills Section: Report Info: Categorized technical and soft skills. Goal: Present skills clearly and highlight key technical competencies. Viz/Presentation Method: Bulleted lists for all skills. A horizontal bar chart for a selection of key technical skills (Python, Cybersecurity, AI/Automation, Network Admin), illustrating relative proficiency levels. (Note: Proficiency levels are illustrative/dummy data as actual numerical data is not in the source CV). Interaction: Chart is static but visually engaging. Justification: Lists are excellent for scanning skills; a chart adds a visual summary and modern touch. Library/Method: HTML, Tailwind CSS, Chart.js (Canvas) for the bar chart. Education & Certifications Section: Report Info: Academic degrees and professional certifications. Goal: Showcase formal education and continuous learning. Viz/Presentation Method: Clear, chronological lists. Interaction: None. Justification: Standard, clear presentation for qualifications. Library/Method: HTML, Tailwind CSS. Contact Section: Report Info: Email, Phone, LinkedIn, GitHub. Goal: Provide clear ways to connect. Viz/Presentation Method: Hyperlinked text with Unicode icons. Interaction: Clickable links. Justification: Direct and actionable. Library/Method: HTML, Tailwind CSS. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 </head>
 <body class="antialiased">
@@ -122,6 +145,7 @@
     <!-- Header / Sticky Navigation -->
     <header class="header-sticky py-4 shadow-sm">
         <nav class="container flex justify-between items-center">
+            <!-- Updated to only show name as a scroll-to-top button -->
             <a href="#hero" class="text-xl font-bold text-blue-700 hover:text-blue-900 transition-colors">Leandro M. Alvarez</a>
             <div class="space-x-4">
                 <a href="#about" class="text-gray-700 hover:text-blue-700 font-medium transition-colors">Acerca de Mí</a>
@@ -134,13 +158,16 @@
     </header>
 
     <!-- Hero Section -->
-    <section id="hero" class="relative bg-hero text-white h-screen flex items-center justify-center p-4">
+    <section id="hero" class="relative bg-hero text-white h-screen flex flex-col items-center justify-center p-4">
         <div class="circuit-lines"></div>
         
+        <!-- Profile Photo -->
+        <img src="foto.jpeg" alt="Foto de Perfil de Leandro Martín Alvarez" class="profile-photo">
+
         <div class="relative z-10 text-center px-4">
             <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-4 leading-tight">LEANDRO MARTÍN ALVAREZ</h1>
             <p class="text-xl sm:text-2xl md:text-3xl text-cyan-300 font-semibold mb-6">
-                🤖 IA | 🔒 Ciberseguridad | ⚙️ Automatización | 🐍 Desarrollo Python | 🌐 Redes y Sistemas | 👨‍🏫 Profesor TI
+                🤖 IA | � Ciberseguridad | ⚙️ Automatización | 🐍 Desarrollo Python | 🌐 Redes y Sistemas | 👨‍🏫 Profesor TI
             </p>
             <div class="text-base sm:text-lg md:text-xl font-light space-y-1">
                 <p>📞 <a href="https://wa.me/5493731661851" target="_blank" class="text-blue-300 hover:underline">+5493731661851</a></p>
@@ -211,7 +238,7 @@
                     <div class="accordion-content">
                         <ul class="list-disc pl-5 text-gray-700">
                             <li>Desarrollé e implementé estrategias de comercio electrónico y marketing digital.</li>
-                            <li>Optimicé plataformas de ventas online para productos John Deere, mejorando la experiencia del cliente y el alcance de mercado.</li>
+                            <li>Optimizé plataformas de ventas online para productos John Deere, mejorando la experiencia del cliente y el alcance de mercado.</li>
                             <li>Realicé análisis de negocio para la toma de decisiones, impulsando el crecimiento en el canal digital.</li>
                         </ul>
                     </div>
@@ -510,28 +537,42 @@
         });
 
         // Accordion functionality for Experience Section
-        document.querySelectorAll('.accordion-header').forEach(header => {
-            header.addEventListener('click', () => {
-                const accordionItem = header.parentElement;
+        document.addEventListener('DOMContentLoaded', () => { // Ensure this runs on load
+            document.querySelectorAll('.accordion-header').forEach(header => {
                 const accordionContent = header.nextElementSibling;
+                accordionContent.style.maxHeight = "0px"; // Initialize all to closed
+                accordionContent.style.paddingTop = "0";    // Remove padding when closed
+                accordionContent.style.paddingBottom = "0"; // Remove padding when closed
 
-                // Close all other accordions
-                document.querySelectorAll('.accordion-item.active').forEach(item => {
-                    if (item !== accordionItem) {
-                        item.classList.remove('active');
-                        item.querySelector('.accordion-content').style.maxHeight = "0px"; /* Ensure it explicitly closes */
+                header.addEventListener('click', () => {
+                    const accordionItem = header.parentElement;
+                    
+                    // Close all other accordions
+                    document.querySelectorAll('.accordion-item.active').forEach(item => {
+                        if (item !== accordionItem) { // Only close others
+                            item.classList.remove('active');
+                            const otherContent = item.querySelector('.accordion-content');
+                            otherContent.style.maxHeight = "0px";
+                            otherContent.style.paddingTop = "0";
+                            otherContent.style.paddingBottom = "0";
+                        }
+                    });
+
+                    // Toggle current accordion
+                    accordionItem.classList.toggle('active');
+                    if (accordionItem.classList.contains('active')) {
+                        accordionContent.style.maxHeight = accordionContent.scrollHeight + "px";
+                        accordionContent.style.paddingTop = "1rem"; // Restore padding when open
+                        accordionContent.style.paddingBottom = "1rem"; // Restore padding when open
+                    } else {
+                        accordionContent.style.maxHeight = "0px";
+                        accordionContent.style.paddingTop = "0"; // Remove padding when closed
+                        accordionContent.style.paddingBottom = "0"; // Remove padding when closed
                     }
                 });
-
-                // Toggle current accordion
-                accordionItem.classList.toggle('active');
-                if (accordionItem.classList.contains('active')) {
-                    accordionContent.style.maxHeight = accordionContent.scrollHeight + "px";
-                } else {
-                    accordionContent.style.maxHeight = "0px";
-                }
             });
         });
+
 
         // Chart.js for Skill Proficiency (Illustrative Data)
         document.addEventListener('DOMContentLoaded', function() {
@@ -624,3 +665,4 @@
     </script>
 </body>
 </html>
+�
